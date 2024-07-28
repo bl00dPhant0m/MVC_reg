@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+
+    <style>
+        body{
+            text-align: center;
+
+        }
+        form{
+            margin-top: 100px;
+           padding: 20px;
+            background: rgba(255, 127, 80, 0.5);
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<form action="/registration" method="post" >
+    <input name="login" type="text" placeholder="enter login"><br><br>
+    <input name="password" type="text" placeholder="enter pass"><br><br>
+    <input name="repeat_password" type="text" placeholder="enter pass again"><br><br>
+    <input name="email" type="email" placeholder="enter email"><br><br><br>
+    <button type="submit">Send</button>
+    <br><br>
+
+    <div th:if="${message != null}">
+        <p th:text="${message}" ></p>
+    </div>
+
+</form>
+
+</body>
+</html>
