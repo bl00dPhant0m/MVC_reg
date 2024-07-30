@@ -93,6 +93,7 @@ public class UserController {
         System.out.println(id);
         var user = userRepository.findById(id).get();
         model.addAttribute("user", user);
+
         return "update";
     }
 }
