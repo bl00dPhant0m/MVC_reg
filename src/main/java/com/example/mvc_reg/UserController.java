@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 @Controller
 public class UserController {
@@ -29,19 +29,17 @@ public class UserController {
                                    @RequestParam String password,
                                    @RequestParam String repeat_password,
                                    @RequestParam String email,
-                                    Model model)
-    {
+                                   Model model) {
         if (!password.equals(repeat_password)) {
-            model.addAttribute("message",  "Passwords do not match");
+            model.addAttribute("message", "Passwords do not match");
             return "registration";
         }
-            User user = new User();
-            user.setLogin(login);
-            user.setPassword(password);
-            user.setEmail(email);
-            userRepository.save(user);
-            model.addAttribute("message", "вы зарегистрировались");
-
+        User user = new User();
+        user.setLogin(login);
+        user.setPassword(password);
+        user.setEmail(email);
+        userRepository.save(user);
+        model.addAttribute("message", "вы зарегистрировались");
 
 
         return "registration";
@@ -49,8 +47,18 @@ public class UserController {
 
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String usersGet(Model model) {
+    public String usersGet(@RequestParam(required = false) String sorted
+            , Model model) {
         var users = userRepository.findAll();
+        if (sorted == null) {
+
+        } else if (sorted.equals("login")) {
+            Collections.sort(users, Comparator.comparing(User::getLogin));
+        } else if (sorted.equals("email")) {
+            Collections.sort(users, Comparator.comparing(User::getEmail));
+        } else if (sorted.equals("password")) {
+            Collections.sort(users, Comparator.comparing(User::getPassword));
+        }
         model.addAttribute("users", users);
         return "users";
     }
@@ -67,4 +75,24 @@ public class UserController {
         return "user";
     }
 
+    @RequestMapping(value = "/emails/{type}/{type2}", method = RequestMethod.GET)
+    public String emailsGet(@PathVariable(required = false) String type,
+                            @PathVariable String type2,
+                            Model model) {
+        var users = userRepository.findAll();
+        var usersFilter = users.stream()
+                .filter(user -> user.getEmail().endsWith(type) || user.getEmail().endsWith(type2))
+                .toList();
+
+        model.addAttribute("users", usersFilter);
+        return "users";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String updateUser(Model model, @RequestParam long id) {
+        System.out.println(id);
+        var user = userRepository.findById(id).get();
+        model.addAttribute("user", user);
+        return "update";
+    }
 }
