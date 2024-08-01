@@ -1,0 +1,9 @@
+body{
+    text-align: center;
+
+}
+form{
+    margin-top: 100px;
+    padding: 20px;
+    background: rgba(255, 127, 80, 0.5);
+}

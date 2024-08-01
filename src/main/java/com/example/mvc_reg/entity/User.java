@@ -1,4 +1,4 @@
-package com.example.mvc_reg;
+package com.example.mvc_reg.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

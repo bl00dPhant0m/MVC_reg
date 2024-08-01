@@ -1,8 +1,9 @@
-package com.example.mvc_reg;
+package com.example.mvc_reg.controller;
 
 
+import com.example.mvc_reg.repository.UserRepository;
+import com.example.mvc_reg.entity.User;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +64,12 @@ public class UserController {
         return "users";
     }
 
+    @PostMapping(value = "/delete")
+    public String usersPost(@RequestParam long id){
+        userRepository.deleteById(id);
+        return "redirect:/users";
+    }
+
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String usersGet(@RequestParam long id, Model model) {
         var user = userRepository.findById(id);
@@ -96,4 +103,11 @@ public class UserController {
 
         return "update";
     }
+
+    @PostMapping(value = "/update")
+    public String updateUserPost(@ModelAttribute User user, Model model) {
+        userRepository.save(user);
+        return "redirect:/users";
+    }
+
 }
