@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+</head>
+
+<link rel="stylesheet" href="/styles.css">
+<nav>
+    <a href="/">Home</a>
+    <a href="/registration">Registration</a>
+    <a href="/users">Users</a>
+</nav>
+
+<body>
+<h2>User Details</h2>
+<p><strong>Login:</strong> <span th:text="${user.login}"></span></p>
+<p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+<h3>Passport Information</h3>
+<p><strong>Name:</strong> <span th:text="${user.passport.name}"></span></p>
+<p><strong>Surname:</strong> <span th:text="${user.passport.surname}"></span></p>
+<p><strong>Serial:</strong> <span th:text="${user.passport.serial}"></span></p>
+<p><strong>Number:</strong> <span th:text="${user.passport.number}"></span></p>
+<p><strong>Date of Issue:</strong> <span th:text="${user.passport.dateOfIssue}"></span></p>
+<p><strong>Date of Birth:</strong> <span th:text="${user.passport.dateOfBirth}"></span></p>
+</body>
+</html>

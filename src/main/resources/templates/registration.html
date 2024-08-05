@@ -14,10 +14,41 @@
 <body>
 
 <form action="/registration" method="post" >
-    <input name="login" type="text" placeholder="enter login"><br><br>
-    <input name="password" type="text" placeholder="enter pass"><br><br>
-    <input name="repeat_password" type="text" placeholder="enter pass again"><br><br>
-    <input name="email" type="email" placeholder="enter email"><br><br><br>
+    <fieldset>
+        <legend>User Information:</legend>
+        <label for="login">Login:</label><br>
+        <input type="text" id="login" name="login" placeholder="enter login" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" placeholder="enter pass" required><br><br>
+
+        <label for="repeat_password">Confirm Password:</label><br>
+        <input type="password" id="repeat_password" name="repeat_password" placeholder="enter pass again" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="enter email" required><br><br>
+    </fieldset>
+
+    <fieldset>
+        <legend>Passport Information:</legend>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="surname">Surname:</label><br>
+        <input type="text" id="surname" name="surname" required><br><br>
+
+        <label for="serial">Serial:</label><br>
+        <input type="number" id="serial" name="serial" required><br><br>
+
+        <label for="number">Number:</label><br>
+        <input type="number" id="number" name="number" required><br><br>
+
+        <label for="dateOfIssue">Date of Issue:</label><br>
+        <input type="date" id="dateOfIssue" name="dateOfIssue" required><br><br>
+
+        <label for="dateOfBirth">Date of Birth:</label><br>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" required><br><br>
+    </fieldset>
     <button type="submit">Send</button>
     <br><br>
 
