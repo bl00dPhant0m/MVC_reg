@@ -5,11 +5,15 @@ import com.example.mvc_reg.entity.Passport;
 import com.example.mvc_reg.repository.PassportRepository;
 import com.example.mvc_reg.repository.UserRepository;
 import com.example.mvc_reg.entity.User;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
 @Controller
 public class UserController {
 
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserRepository userRepository;
     private final PassportRepository passportRepository;
 
@@ -31,27 +36,34 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String registrationGet() {
+    public String registrationGet(Model model) {
+        var user = new User();
+        Passport passport = new Passport();
+        user.setPassport(passport);
+
+        model.addAttribute("user", user);
         return "registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registrationPost(@RequestParam String login,
-                                   @RequestParam String password,
+    public String registrationPost(@Valid @ModelAttribute("user") User user,
                                    @RequestParam String repeat_password,
-                                   @RequestParam String email,
-                                   @ModelAttribute Passport passport,
-                                   Model model) {
-        if (!password.equals(repeat_password)) {
+                                   Model model,
+                                   BindingResult bindingResult) {
+        if (!user.getPassword().equals(repeat_password)) {
             model.addAttribute("message", "Passwords do not match");
             return "registration";
         }
-        User user = new User();
-        user.setLogin(login);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setPassport(passport);
-        passport.setUser(user);
+
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+        Passport passport = user.getPassport();
+        if (passport != null){
+            passport.setUser(user);
+        }
+
+        log.info("SAVE ");
         userRepository.save(user);
         model.addAttribute("message", "You have successfully registered!");
 

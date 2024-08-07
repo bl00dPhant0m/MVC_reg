@@ -6,56 +6,64 @@
     <link rel="stylesheet" href="/reg_style.css">
     <link rel="stylesheet" href="/styles.css">
 </head>
+<body>
+
 <nav>
     <a href="/">Home</a>
     <a href="/registration">Registration</a>
     <a href="/users">Users</a>
 </nav>
-<body>
 
-<form action="/registration" method="post" >
-    <fieldset>
-        <legend>User Information:</legend>
-        <label for="login">Login:</label><br>
-        <input type="text" id="login" name="login" placeholder="enter login" required><br><br>
+<form action="#" th:action="@{/registration}" method="post" th:object="${user}">
+    <legend>User Information:</legend>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" placeholder="enter pass" required><br><br>
+    <label for="login">Login:</label><br>
+    <input type="text" id="login" th:field="*{login}" placeholder="enter login" required><br><br>
+    <div th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
 
-        <label for="repeat_password">Confirm Password:</label><br>
-        <input type="password" id="repeat_password" name="repeat_password" placeholder="enter pass again" required><br><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" th:field="*{password}" placeholder="enter pass" required><br><br>
+    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" placeholder="enter email" required><br><br>
-    </fieldset>
+    <label for="repeat_password">Confirm Password:</label><br>
+    <input type="password" id="repeat_password" name="repeat_password" placeholder="enter pass again" required><br><br>
 
-    <fieldset>
-        <legend>Passport Information:</legend>
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" required><br><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" th:field="*{email}" placeholder="enter email" required><br><br>
+    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 
-        <label for="surname">Surname:</label><br>
-        <input type="text" id="surname" name="surname" required><br><br>
+    <legend>Passport Information:</legend>
 
-        <label for="serial">Serial:</label><br>
-        <input type="number" id="serial" name="serial" required><br><br>
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" th:field="*{passport.name}" required><br><br>
+    <div th:if="${#fields.hasErrors('passport.name')}" th:errors="*{passport.name}"></div>
 
-        <label for="number">Number:</label><br>
-        <input type="number" id="number" name="number" required><br><br>
+    <label for="surname">Surname:</label><br>
+    <input type="text" id="surname" th:field="*{passport.surname}" required><br><br>
+    <div th:if="${#fields.hasErrors('passport.surname')}" th:errors="*{passport.surname}"></div>
 
-        <label for="dateOfIssue">Date of Issue:</label><br>
-        <input type="date" id="dateOfIssue" name="dateOfIssue" required><br><br>
+    <label for="serial">Serial:</label><br>
+    <input type="number" id="serial" th:field="*{passport.serial}" required><br><br>
+    <div th:if="${#fields.hasErrors('passport.serial')}" th:errors="*{passport.serial}"></div>
 
-        <label for="dateOfBirth">Date of Birth:</label><br>
-        <input type="date" id="dateOfBirth" name="dateOfBirth" required><br><br>
-    </fieldset>
+    <label for="number">Number:</label><br>
+    <input type="number" id="number" th:field="*{passport.number}" required><br><br>
+    <div th:if="${#fields.hasErrors('passport.number')}" th:errors="*{passport.number}"></div>
+
+    <label for="dateOfIssue">Date of Issue:</label><br>
+    <input type="date" id="dateOfIssue" th:field="*{passport.dateOfIssue}" required><br><br>
+    <div th:if="${#fields.hasErrors('passport.dateOfIssue')}" th:errors="*{passport.dateOfIssue}"></div>
+
+    <label for="dateOfBirth">Date of Birth:</label><br>
+    <input type="date" id="dateOfBirth" th:field="*{passport.dateOfBirth}" required><br><br>
+    <div th:if="${#fields.hasErrors('passport.dateOfBirth')}" th:errors="*{passport.dateOfBirth}"></div>
+
     <button type="submit">Send</button>
     <br><br>
 
     <div th:if="${message != null}">
-        <p th:text="${message}" ></p>
+        <p th:text="${message}"></p>
     </div>
-
 </form>
 
 </body>
