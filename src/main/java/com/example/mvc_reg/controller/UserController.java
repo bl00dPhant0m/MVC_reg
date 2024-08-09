@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,24 +44,24 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registrationPost(@Valid @ModelAttribute("user") User user,
-                                   @RequestParam String repeat_password,
-                                   Model model,
-                                   BindingResult bindingResult) {
+    public String registrationPost( @Valid @ModelAttribute("user") User user,
+                                     BindingResult bindingResult,
+                                     @RequestParam String repeat_password,
+                                    Model model) {
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+
         if (!user.getPassword().equals(repeat_password)) {
             model.addAttribute("message", "Passwords do not match");
             return "registration";
         }
 
-        if (bindingResult.hasErrors()) {
-            return "registration";
-        }
         Passport passport = user.getPassport();
         if (passport != null){
             passport.setUser(user);
         }
 
-        log.info("SAVE ");
         userRepository.save(user);
         model.addAttribute("message", "You have successfully registered!");
 

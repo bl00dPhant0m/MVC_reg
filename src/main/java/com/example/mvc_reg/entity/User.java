@@ -1,6 +1,7 @@
 package com.example.mvc_reg.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -36,6 +37,7 @@ public class User {
     private LocalDate dateOfRegistration = LocalDate.now();
 
 
+    @Valid
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Passport passport;
 
